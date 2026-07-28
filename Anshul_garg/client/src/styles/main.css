@@ -1,0 +1,32 @@
+.container ol li{
+  font-size: 1.2em;
+  margin-bottom:15px ;
+}
+
+#form{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px ;
+  height: 30px;
+}
+
+.start{
+    display: flex;
+    justify-content: center;
+}
+
+.start .btn{
+    padding: .2em 1.7em;
+    border: none;
+    border-radius: .2em;
+    font-size: 1.2em;
+    color: #202020;
+    text-decoration: none;
+    background-color: #bfacba;
+}
+
+.start .btm :hover{
+  cursor: pointer;
+  background-color: #ead8c7;
+  
+}

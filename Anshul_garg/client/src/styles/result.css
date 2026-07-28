@@ -1,0 +1,46 @@
+.result {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border: 2px solid #c99877;
+    padding: 20px 30px;
+    gap: 1em;
+    border-radius: 5px ;
+    width: 60%;
+}
+
+.container .flex{
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2em;
+}
+
+.Bold {
+  font-weight: bold;
+}
+
+.container .start{
+    margin-top: 40px;
+}
+
+table {
+    width: 100%;
+    margin-top: 50px;
+}
+
+.table-header {
+    color: #ead8c7;
+    font-size: 1.2em;
+    text-align: center;
+    background: #c99877;
+    padding: 25px 0px ;
+}
+
+.table-body {
+    font-size: 1em;
+    text-align: center;
+    background: #d8d8d8;
+    padding: 25px 0;
+}
+
+
