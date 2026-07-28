@@ -1,0 +1,122 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+/* Body */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    background: rgb(34, 8, 27)
+}
+/* Quiz box*/
+.container {
+    width: 550px;
+    max-width: 100%;
+    background: #ffffff;
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 0 12px 30px rgba(197, 193, 218, 0.822);
+}
+/* Responsive */
+@media (max-width: 500px) {
+    .container {
+        width: 100%;
+        padding: 20px;
+    }
+}
+/* Heading */
+h1 {
+    text-align: center;
+    color: #320552;
+    margin-bottom: 25px;
+    font-size: 34px;
+}
+/* Question */
+#question {
+    font-size: 24px;
+    color: #000000;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+/* Option Buttons */
+#options button {
+    width: 100%;
+    display: block;
+    margin: 12px 0;
+    padding: 14px;
+    border: 2px solid #d7c8ff;
+    border-radius: 10px;
+    background: #f7f3ff;
+    color: #333;
+    font-size: 17px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+#options button:hover {
+    background: #05000a;
+    color: white;
+    transform: translateY(-2px);
+}
+#options button:active {
+    transform: scale(0.97);
+}
+/* Next Button */
+#nextButton {
+    margin-top: 20px;
+    padding: 14px 30px;
+    background: #4f8ef7;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+#nextButton:hover {
+    background: #2d6cdf;
+    transform: scale(1.05);
+}
+/* Submit Button */
+#submitButton {
+    margin-top: 20px;
+    padding: 14px 30px;
+    background: #18a558;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: pulse 1.5s infinite;
+}
+#submitButton:hover {
+    background: #0d8a46;
+    transform: scale(1.05);
+}
+/* Result */
+#result {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+    color: #18a558;
+}
+/* Animation */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+        }
+    100% {
+        transform: scale(1);
+    }
+}
