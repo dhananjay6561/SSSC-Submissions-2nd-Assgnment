@@ -1,0 +1,14 @@
+{
+  "name": "bhavika_quiz_app",
+  "version": "1.0.0",
+  "description": "Simple Quiz App using Node.js and Express",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Bhavika",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}

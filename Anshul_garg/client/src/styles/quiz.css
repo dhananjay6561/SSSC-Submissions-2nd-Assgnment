@@ -1,0 +1,33 @@
+.container .grid{
+    margin-top: 3em;
+    display: grid;
+    grid-template-columns: 1fr 1fr ;
+    width: 100%;
+}
+
+.container .btn{
+    padding: .2em 1.5em;
+    border: none;
+    border-radius: 0.2em;
+    font-size: 1.2em;
+}
+
+.container .btn:hover{
+    cursor: pointer;
+    background-color: #ead8c7;
+    color: #202020;
+}
+
+.next{
+    justify-self: flex-end;
+    margin-right: 250px;
+}
+
+.prev{
+    justify-self: flex-start;
+    margin-left: 250px;
+}
+
+
+
+

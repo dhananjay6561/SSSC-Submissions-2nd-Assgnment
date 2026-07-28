@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="loginPage">
+        <form id="loginForm">
+            <h1>Let's start the quiz!</h1>
+            <strong>Enter your details to begin-</strong>
+            <br><br>
+            <label for="name"><u>Name:</u></label>
+            <input type="text" for="name" id="name" placeholder="Enter your name">
+            <label for="email"><u>Email:</u></label>
+            <input type="email" id="email" placeholder="Enter your email address">
+            <button type="submit">Start Quiz</button>
+        </form>
+    </div>
+
+    <div id="quizPage">
+        <div class="navbar">
+            <span id="username"></span>
+            <button id="submitBtn">Submit Quiz</button>
+        </div>
+        <h2 id="questionNumber"></h2>
+        <h3 id="questionText"></h3>
+        <div id="options"></div>
+        <div class="buttons">
+            <button id="previousBtn">Previous</button>
+            <button id="nextBtn">Next</button>
+        </div>
+    </div>
+
+    <div id="resultPage" style="display:none">
+        <h1>Quiz Completed</h1>
+        <p id="resultName"></p>
+        <p id="resultEmail"></p>
+        <h2 id="score"></h2>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

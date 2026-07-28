@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Quiz App</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            width: 600px;
+            margin: 40px auto;
+        }
+
+        h1{
+            text-align:center;
+        }
+
+        .option{
+            margin:10px 0;
+        }
+
+        button{
+            padding:10px 20px;
+            margin-top:20px;
+            cursor:pointer;
+        }
+
+        #result{
+            margin-top:20px;
+            font-size:22px;
+            color:green;
+            font-weight:bold;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<h1>Quiz App</h1>
+
+<div id="quiz"></div>
+
+<button id="nextBtn">Next</button>
+
+<button id="submitBtn" style="display:none;">Submit</button>
+
+<div id="result"></div>
+
+<script>
+
+let questions = [];
+let currentQuestion = 0;
+let answers = [];
+
+// Get questions from server
+fetch("/questions")
+.then(response => response.json())
+.then(data => {
+
+    questions = data;
+    showQuestion();
+
+});
+
+// Display one question
+function showQuestion(){
+
+    let q = questions[currentQuestion];
+
+    let html = "<h2>Question " + (currentQuestion + 1) + "</h2>";
+    html += "<p>" + q.question + "</p>";
+
+    q.options.forEach(function(option){
+
+        let value = option.charAt(0);
+
+        html += `
+        <div class="option">
+            <input type="radio" name="answer" value="${value}">
+            ${option}
+        </div>
+        `;
+
+    });
+
+    document.getElementById("quiz").innerHTML = html;
+
+    if(currentQuestion == questions.length - 1){
+        document.getElementById("nextBtn").style.display = "none";
+        document.getElementById("submitBtn").style.display = "inline";
+    }
+
+}
+
+// Save selected answer
+function saveAnswer(){
+
+    let selected = document.querySelector('input[name="answer"]:checked');
+
+    if(selected == null){
+        alert("Please select an answer.");
+        return false;
+    }
+
+    answers[currentQuestion] = {
+        id: questions[currentQuestion].id,
+        selected: selected.value
+    };
+
+    return true;
+
+}
+
+// Next button
+document.getElementById("nextBtn").onclick = function(){
+
+    if(!saveAnswer()){
+        return;
+    }
+
+    currentQuestion++;
+    showQuestion();
+
+};
+
+// Submit button
+document.getElementById("submitBtn").onclick = function(){
+
+    if(!saveAnswer()){
+        return;
+    }
+
+    fetch("/submit",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":"application/json"
+        },
+
+        body:JSON.stringify(answers)
+
+    })
+
+    .then(response => response.json())
+    .then(data => {
+
+        document.getElementById("quiz").innerHTML = "";
+        document.getElementById("nextBtn").style.display = "none";
+        document.getElementById("submitBtn").style.display = "none";
+
+        document.getElementById("result").innerHTML =
+        "Your Score: " + data.score + " / " + data.total;
+
+    });
+
+};
+
+</script>
+
+</body>
+
+</html>

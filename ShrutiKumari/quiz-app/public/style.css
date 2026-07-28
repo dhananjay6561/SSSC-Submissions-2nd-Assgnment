@@ -1,0 +1,56 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+    margin: 0;
+}
+#loginPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+form {
+    background: rgb(210, 208, 208);
+    padding: 30px;
+    width: 300px;
+}
+input {
+    padding: 10px;
+    margin: 10px 0;
+    width: 90%;
+}
+button {
+    padding: 10px 20px;
+    cursor: pointer;
+}
+#quizPage,
+#resultPage {
+    background: white;
+    margin: 30px auto;
+    padding: 25px;
+    width: 500px;
+}
+.navbar {
+    overflow: hidden;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 15px;
+}
+#username {
+    float: left;
+    font-weight: bold;
+}
+#submitBtn {
+    float: right;
+}
+#options div {
+    margin: 15px 0;
+}
+#options input {
+    width: auto;
+}
+.buttons {
+    margin-top: 30px;
+}
+.buttons button {
+    margin-right: 10px;
+}

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Time!</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body>
+    <div class="container">
+    <h1>It's time to take a quiz! </h1>
+    <div id="quiz">
+        <h3 id="counter"></h3>
+        <div class="progress">
+            <div id="progressBar"></div>
+        </div>
+        <h2 id="questions"></h2>
+        <div id="options"></div>
+        <button id="nextBtn">Next</button>
+        <button id="submitBtn" style="display: none;">Submit</button>
+    </div>
+    <h3 id="counter"></h3>
+    <div id="result"></div>
+    </div>
+    <script>
+
+        let questions=[];
+        let currentQuestion=0;
+        let userAnswers=[];
+
+        async function loadQuestions(){
+            const response = await fetch("/questions");
+            questions=await response.json();
+            showQuestion();
+        }
+
+        function showQuestion(){
+
+            const question=questions[currentQuestion];
+            document.getElementById("counter").textContent=`Question ${currentQuestion+1} of ${questions.length}`;
+            document.getElementById("questions").textContent= question.question;
+
+            const optionsContainer=document.getElementById("options");
+            optionsContainer.innerHTML="";
+
+            question.options.forEach((option)=>{
+                const label=document.createElement("label");
+                label.innerHTML=`
+                <input type="radio" name="answer" value="${option[0]}">
+                ${option}
+                <br><br>
+                `;
+                optionsContainer.appendChild(label);
+            });
+            document.querySelectorAll('input[name="answer"]').forEach((radio)=>{
+                radio.addEventListener("change",()=>{
+                        const existingIndex=userAnswers.findIndex(
+                            ans=>ans.id===questions[currentQuestion].id
+                        );
+
+                        if(existingIndex!== -1){
+                            userAnswers[existingIndex].selected=radio.value;
+                        }
+                        else{
+                            userAnswers.push({
+                                id: questions[currentQuestion].id,
+                                selected:radio.value
+                            });
+                        }
+
+                        updateProgress();
+                    });
+                });
+
+            if(currentQuestion===questions.length-1){
+                document.getElementById("nextBtn").style.display="none";
+                document.getElementById("submitBtn").style.display="inline";
+            }
+
+        }
+
+        document.getElementById("nextBtn").addEventListener("click",()=>{
+            const selected=document.querySelector('input[name="answer"]:checked');
+
+            if(!selected){
+                alert("please select an answer before proceeding.");
+                return false;
+            }
+            currentQuestion++;
+            showQuestion();
+            return true;
+        });
+
+        function updateProgress() {
+            const answered=Object.keys(userAnswers).length;
+            const percent = (answered / questions.length) * 100;
+            document.getElementById("progressBar").style.width = percent + "%";
+        }
+
+        document.getElementById("submitBtn").addEventListener("click",async()=>{
+            const selected=document.querySelector(
+                'input[name="answer"]:checked'
+            );
+            if(!selected){
+                alert("please select an answer.");
+                return;
+            }
+            console.log(userAnswers);
+            const response=await fetch("/submit",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify(userAnswers)
+            });
+            const result=await response.json();
+            let message="";
+            if(result.score===result.total){
+                message="Perfect Score!";
+            }
+            else if(result.score>=3){
+                message="Good Job!"
+            }
+            else{
+                message="Keep Practicing!"
+            }
+            document.getElementById("quiz").innerHTML=`
+            <div class="result-card">
+            <h2>Quiz Completed</h2>
+            <div class="score-box">
+            <h3>Your Score</h3>
+                <h1>${result.score}/${result.total}</h1>
+            </div>
+            <p class="result-message">${message}</p>
+            <button class="play-btn" onclick="location.reload()">
+                Play Again..
+            </button>
+            </div>
+            `;
+        });
+
+        loadQuestions();
+
+    </script>
+    
+</body>
+</html>
