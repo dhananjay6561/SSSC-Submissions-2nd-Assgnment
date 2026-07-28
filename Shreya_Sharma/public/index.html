@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .quiz-card { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 100%; max-width: 500px; }
+        .option { display: block; padding: 12px; margin: 10px 0; background: #eef2f5; border: 2px solid transparent; border-radius: 5px; cursor: pointer; transition: 0.2s; }
+        .option:hover { background: #dce3e9; }
+        .option.selected { border-color: #007bff; background: #e0f0ff; font-weight: bold; }
+        button { margin-top: 20px; padding: 10px 20px; border: none; border-radius: 5px; background: #007bff; color: white; font-size: 16px; cursor: pointer; width: 100%; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        #score-screen { display: none; text-align: center; }
+        #score-screen h2 { color: #28a745; font-size: 32px; }
+    </style>
+</head>
+<body>
+
+    <div class="quiz-card" id="quiz-screen">
+        <h3 id="question-text">Loading...</h3>
+        <div id="options-container"></div>
+        <button id="next-btn" style="display: none;" disabled>Next Question</button>
+        <button id="submit-btn" style="display: none;" disabled>Submit Quiz</button>
+    </div>
+
+    <div class="quiz-card" id="score-screen">
+        <h2>Quiz Complete!</h2>
+        <p id="score-text"></p>
+    </div>
+
+    <script>
+        let questions = [];
+        let currentIndex = 0;
+        let userAnswers = [];
+        let currentSelection = null;
+
+        fetch('/questions')
+            .then(res => res.json())
+            .then(data => {
+                questions = data;
+                renderQuestion();
+            });
+
+        function renderQuestion() {
+            currentSelection = null; 
+            const q = questions[currentIndex];
+            
+            document.getElementById('question-text').innerText = `${currentIndex + 1}. ${q.question}`;
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+
+          
+            q.options.forEach(opt => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.innerText = opt;
+                div.onclick = () => handleSelect(div, opt, q.id);
+                optionsContainer.appendChild(div);
+            });
+
+        
+            const nextBtn = document.getElementById('next-btn');
+            const submitBtn = document.getElementById('submit-btn');
+            
+            if (currentIndex === questions.length - 1) {
+                nextBtn.style.display = 'none';
+                submitBtn.style.display = 'block';
+                submitBtn.disabled = true;
+            } else {
+                nextBtn.style.display = 'block';
+                submitBtn.style.display = 'none';
+                nextBtn.disabled = true;
+            }
+        }
+
+        function handleSelect(element, optionText, questionId) {
+         
+            document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
+            
+        
+            element.classList.add('selected');
+
+           
+            const letter = optionText.charAt(0);
+            
+            currentSelection = { id: questionId, selected: letter };
+
+           
+            document.getElementById('next-btn').disabled = false;
+            document.getElementById('submit-btn').disabled = false;
+        }
+
+
+        document.getElementById('next-btn').onclick = () => {
+            if (currentSelection) {
+                userAnswers.push(currentSelection);
+                currentIndex++;
+                renderQuestion();
+            }
+        };
+
+       
+        document.getElementById('submit-btn').onclick = () => {
+            if (currentSelection) {
+                userAnswers.push(currentSelection);
+                
+             
+                fetch('/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(userAnswers)
+                })
+                .then(res => res.json())
+                .then(data => {
+                  
+                    document.getElementById('quiz-screen').style.display = 'none';
+                    document.getElementById('score-screen').style.display = 'block';
+                    document.getElementById('score-text').innerText = `You scored ${data.score} out of ${data.total}!`;
+                });
+            }
+        };
+    </script>
+</body>
+</html>
