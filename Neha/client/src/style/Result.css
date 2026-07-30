@@ -1,0 +1,59 @@
+.result-card{
+    width:100%;
+    max-width:650px;
+    margin:35px auto;
+    background: #a6bedd;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 12px 30px rgba(0,0,0,.25);
+}
+
+.result-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 25px;
+    font-size:18px;
+    border-bottom:1px solid #617296;
+}
+
+.result-row:last-child{
+    border-bottom:none;
+}
+
+.result-row:nth-child(odd){
+    background:#f8fafc;
+}
+
+.result-row span:first-child{
+    color:#475569;
+    font-weight:600;
+}
+
+.result-row span:last-child{
+    font-weight:700;
+    color: #0f172a;
+}
+
+.pass{
+    color: #16a34a !important;
+}
+
+.fail{
+    color: #dc2626 !important;
+}
+
+.title{
+    text-align:center;
+    margin-bottom:30px;
+    color:white;
+}
+
+@media(max-width:768px){
+
+.result-row{
+    padding:15px;
+    font-size:16px;
+}
+
+}
